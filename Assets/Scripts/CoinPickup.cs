@@ -11,23 +11,35 @@ public class CoinPickup : MonoBehaviour
         if (collected) return;
         collected = true;
 
-        // 🔊 Play adaptive sound
+        // 🪙 Hide the coin immediately to stop further gaze hits
+        gameObject.SetActive(false);
+
+        // 🔊 Play adaptive sound (safe version)
         if (pickupSound)
-            AudioSource.PlayClipAtPoint(pickupSound, transform.position);
+        {
+            GameObject tempAudio = new GameObject("TempAudio");
+            tempAudio.transform.position = transform.position;
+
+            AudioSource source = tempAudio.AddComponent<AudioSource>();
+            source.clip = pickupSound;
+            source.spatialBlend = 1f;
+            source.Play();
+            Destroy(tempAudio, pickupSound.length);
+        }
 
         // ✨ Spawn visual effect
         if (pickupEffect != null)
+        {
             Instantiate(pickupEffect, transform.position, Quaternion.identity);
-
-        Debug.Log("Coin collected!");
+        }
 
         // 💰 Add to the coin counter
         CoinManager.Instance?.AddCoin();
 
-        // 🪙 Hide the coin
-        gameObject.SetActive(false);
+        Debug.Log("Coin collected!");
     }
 }
+
 
 
 
