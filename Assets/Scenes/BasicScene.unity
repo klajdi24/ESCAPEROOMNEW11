@@ -1413,7 +1413,7 @@ MonoBehaviour:
   onHoverExit:
     m_PersistentCalls:
       m_Calls: []
-  hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  hoverColor: {r: 1, g: 0.61380404, b: 0.015686274, a: 1}
 --- !u!65 &382020547
 BoxCollider:
   m_ObjectHideFlags: 0

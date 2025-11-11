@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class ComfortSettingsMenu : MonoBehaviour
 {
@@ -15,12 +16,18 @@ public class ComfortSettingsMenu : MonoBehaviour
     public Light sceneLight;
     public GazeInteractor gazeInteractor;
 
+    [Header("XR Locomotion")]
+    public ActionBasedContinuousMoveProvider moveProvider;  // 👈 Assign your XR movement component here
+
     private bool menuOpen = false;
     private float motionMultiplier = 1f;
 
     // Brightness limits
     [SerializeField] private float minBrightness = 0.2f;
     [SerializeField] private float maxBrightness = 3f;
+
+    // XR locomotion base speed (we’ll read this at start)
+    private float baseMoveSpeed = 1f;
 
     private void Start()
     {
@@ -45,11 +52,20 @@ public class ComfortSettingsMenu : MonoBehaviour
             SetBrightness(brightnessSlider.value);
         }
 
-        // Motion
+        // Motion sensitivity setup
         if (motionSensitivitySlider != null)
+        {
+            motionSensitivitySlider.minValue = 0f;
+            motionSensitivitySlider.maxValue = 1f;
+            motionSensitivitySlider.value = 0.5f;
             motionSensitivitySlider.onValueChanged.AddListener(SetMotionSensitivity);
+        }
 
-        // Gaze toggle
+        // Save base movement speed from XR locomotion
+        if (moveProvider != null)
+            baseMoveSpeed = moveProvider.moveSpeed;
+
+        // Gaze toggle setup
         if (gazeToggle != null)
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
 
@@ -87,7 +103,13 @@ public class ComfortSettingsMenu : MonoBehaviour
     private void SetMotionSensitivity(float value)
     {
         motionMultiplier = Mathf.Lerp(0.5f, 2f, value);
-        Debug.Log($"Motion sensitivity set to {motionMultiplier}");
+        Debug.Log($"🎮 Motion sensitivity set to {motionMultiplier}");
+
+        if (moveProvider != null)
+        {
+            moveProvider.moveSpeed = baseMoveSpeed * motionMultiplier;
+            Debug.Log($"Updated XR movement speed to {moveProvider.moveSpeed}");
+        }
     }
 
     private void SetGazeEnabled(bool isEnabled)
@@ -100,9 +122,10 @@ public class ComfortSettingsMenu : MonoBehaviour
                 gazeInteractor.reticle.gameObject.SetActive(isEnabled);
         }
 
-        Debug.Log($"Gaze Interactor {(isEnabled ? "Enabled" : "Disabled")}");
+        Debug.Log($"👁️ Gaze Interactor {(isEnabled ? "Enabled" : "Disabled")}");
     }
 }
+
 
 
 
