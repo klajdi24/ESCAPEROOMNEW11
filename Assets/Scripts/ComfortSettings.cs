@@ -17,11 +17,11 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     [Header("Scene References")]
     public Light sceneLight;
-    public MonoBehaviour gazeInteractor; // keep generic (GazeInteractor or similar)
+    public MonoBehaviour gazeInteractor;
 
     [Header("XR Locomotion")]
-    [Tooltip("Drag the Move Provider component (click component header and drag) - not the GameObject")]
-    public Component moveProvider; // intentionally generic: Action-based, Device-based, ContinuousMoveProviderBase, etc.
+    [Tooltip("Drag the Move Provider component (ContinuousMoveProviderBase, DeviceBased, ActionBased, etc.)")]
+    public Component moveProvider;
 
     [Header("Placement")]
     public Camera playerCamera;
@@ -31,10 +31,8 @@ public class ComfortSettingsMenu : MonoBehaviour
     private bool menuOpen = false;
     private float baseMoveSpeed = 1f;
 
-    // Runtime InputAction (no InputActions asset required)
     private InputAction toggleAction;
 
-    // Reflection helpers cached
     private PropertyInfo moveSpeedProperty;
     private FieldInfo moveSpeedField;
 
@@ -46,8 +44,6 @@ public class ComfortSettingsMenu : MonoBehaviour
         if (settingsPanel != null)
             settingsPanel.SetActive(false);
 
-        // Create automatic toggle input (no asset required).
-        // Binds to left controller primary button (X on Quest left controller).
         toggleAction = new InputAction(
             name: "ToggleMenu",
             type: InputActionType.Button,
@@ -58,7 +54,6 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        // UI wiring (safe checks)
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
 
@@ -83,45 +78,39 @@ public class ComfortSettingsMenu : MonoBehaviour
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
 
         if (gazeInteractor != null && gazeToggle != null)
-        {
-            // try to read an "enabled" state if possible
             gazeToggle.isOn = gazeInteractor.enabled;
-        }
 
-        // If a moveProvider is assigned, try to read its current moveSpeed via reflection
         if (moveProvider != null)
         {
             Type t = moveProvider.GetType();
-            // common property name: "moveSpeed"
-            moveSpeedProperty = t.GetProperty("moveSpeed", BindingFlags.Public | BindingFlags.Instance);
+
+            moveSpeedProperty = t.GetProperty("moveSpeed",
+                BindingFlags.Public | BindingFlags.Instance);
+
             if (moveSpeedProperty == null)
             {
-                // some older types may use a field
-                moveSpeedField = t.GetField("moveSpeed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+                moveSpeedField = t.GetField("moveSpeed",
+                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             }
 
             try
             {
-                if (moveSpeedProperty != null && moveSpeedProperty.PropertyType == typeof(float))
-                {
+                if (moveSpeedProperty != null)
                     baseMoveSpeed = (float)moveSpeedProperty.GetValue(moveProvider);
-                }
-                else if (moveSpeedField != null && moveSpeedField.FieldType == typeof(float))
-                {
+                else if (moveSpeedField != null)
                     baseMoveSpeed = (float)moveSpeedField.GetValue(moveProvider);
-                }
                 else
                 {
-                    // fallback: try common alternative property name
-                    var propAlt = t.GetProperty("m_MoveSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (propAlt != null && propAlt.PropertyType == typeof(float))
+                    var propAlt = t.GetProperty("m_MoveSpeed",
+                        BindingFlags.NonPublic | BindingFlags.Instance);
+
+                    if (propAlt != null)
                         baseMoveSpeed = (float)propAlt.GetValue(moveProvider);
                 }
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"ComfortSettingsMenu: failed to read move speed via reflection: {ex.Message}");
-                baseMoveSpeed = 1f;
+                Debug.LogWarning("ComfortSettingsMenu: Could not read moveSpeed: " + ex.Message);
             }
         }
     }
@@ -155,17 +144,19 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void PlacePanelInFrontOfPlayer()
     {
-        if (playerCamera == null) return;
+        if (playerCamera == null)
+            return;
 
-        Vector3 forward = playerCamera.transform.forward;
-        Vector3 target = playerCamera.transform.position + forward.normalized * openDistance + Vector3.up * verticalOffset;
+        Vector3 target = playerCamera.transform.position
+                         + playerCamera.transform.forward.normalized * openDistance
+                         + Vector3.up * verticalOffset;
 
         settingsPanel.transform.position = target;
 
-        Vector3 lookDir = playerCamera.transform.position - settingsPanel.transform.position;
-        lookDir.y = 0f;
-        if (lookDir.sqrMagnitude > 0.001f)
-            settingsPanel.transform.rotation = Quaternion.LookRotation(lookDir);
+        Vector3 faceDirection = playerCamera.transform.forward;
+        faceDirection.y = 0f;
+
+        settingsPanel.transform.rotation = Quaternion.LookRotation(faceDirection);
     }
 
     public void CloseMenu()
@@ -192,31 +183,32 @@ public class ComfortSettingsMenu : MonoBehaviour
 
         try
         {
-            if (moveSpeedProperty != null && moveSpeedProperty.PropertyType == typeof(float))
+            if (moveSpeedProperty != null)
             {
                 moveSpeedProperty.SetValue(moveProvider, newSpeed);
                 return;
             }
 
-            if (moveSpeedField != null && moveSpeedField.FieldType == typeof(float))
+            if (moveSpeedField != null)
             {
                 moveSpeedField.SetValue(moveProvider, newSpeed);
                 return;
             }
 
-            // fallback: try setting a non-public property/field
-            var propAlt = moveProvider.GetType().GetProperty("m_MoveSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (propAlt != null && propAlt.PropertyType == typeof(float))
+            var propAlt = moveProvider.GetType().GetProperty("m_MoveSpeed",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (propAlt != null)
             {
                 propAlt.SetValue(moveProvider, newSpeed);
                 return;
             }
 
-            Debug.LogWarning("ComfortSettingsMenu: moveSpeed property/field not found on the assigned moveProvider. Motion sensitivity won't change runtime speed.");
+            Debug.LogWarning("ComfortSettingsMenu: moveSpeed not found, cannot modify speed.");
         }
         catch (Exception ex)
         {
-            Debug.LogWarning($"ComfortSettingsMenu: failed to set move speed via reflection: {ex.Message}");
+            Debug.LogWarning("ComfortSettingsMenu: Could not set moveSpeed: " + ex.Message);
         }
     }
 
@@ -224,25 +216,26 @@ public class ComfortSettingsMenu : MonoBehaviour
     {
         if (gazeInteractor == null) return;
 
-        // many gaze interactors are MonoBehaviours; enable/disable them
         gazeInteractor.enabled = isEnabled;
 
-        // try to find a "reticle" field/property and toggle its GameObject if present
         var t = gazeInteractor.GetType();
-        var reticleProp = t.GetProperty("reticle", BindingFlags.Public | BindingFlags.Instance);
+        var reticleProp = t.GetProperty("reticle",
+            BindingFlags.Public | BindingFlags.Instance);
+
         if (reticleProp != null)
         {
-            var retObj = reticleProp.GetValue(gazeInteractor) as Component;
+            Component retObj = reticleProp.GetValue(gazeInteractor) as Component;
             if (retObj != null)
                 retObj.gameObject.SetActive(isEnabled);
         }
         else
         {
-            // try field
-            var retField = t.GetField("reticle", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            if (retField != null)
+            var reticleField = t.GetField("reticle",
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+
+            if (reticleField != null)
             {
-                var retObj = retField.GetValue(gazeInteractor) as Component;
+                Component retObj = reticleField.GetValue(gazeInteractor) as Component;
                 if (retObj != null)
                     retObj.gameObject.SetActive(isEnabled);
             }
