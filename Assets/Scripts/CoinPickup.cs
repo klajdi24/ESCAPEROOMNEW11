@@ -11,10 +11,10 @@ public class CoinPickup : MonoBehaviour
         if (collected) return;
         collected = true;
 
-        // 🪙 Hide the coin immediately to stop further gaze hits
+        // Hide coin immediately (prevents double pickup)
         gameObject.SetActive(false);
 
-        // 🔊 Play adaptive sound (safe version)
+        // Play adaptive sound
         if (pickupSound)
         {
             GameObject tempAudio = new GameObject("TempAudio");
@@ -25,25 +25,30 @@ public class CoinPickup : MonoBehaviour
             source.spatialBlend = 1f;
             source.Play();
 
-  if (pickupEffect != null)
+            Destroy(tempAudio, pickupSound.length);
+        }
+
+        // Spawn particle effect
+        if (pickupEffect != null)
         {
             Instantiate(pickupEffect, transform.position, Quaternion.identity);
         }
 
-
-            Destroy(tempAudio, pickupSound.length);
-
+        // Add to the coin counter + spawn popup
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.AddCoin(transform.position);
         }
-
-        // ✨ Spawn visual effect
-      
-
-        // 💰 Add to the coin counter
-        CoinManager.Instance?.AddCoin();
+        else
+        {
+            Debug.LogError("No CoinManager found in the scene!");
+        }
 
         Debug.Log("Coin collected!");
     }
 }
+
+
 
 
 
