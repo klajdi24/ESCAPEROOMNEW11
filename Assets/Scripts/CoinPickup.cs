@@ -24,14 +24,19 @@ public class CoinPickup : MonoBehaviour
             source.clip = pickupSound;
             source.spatialBlend = 1f;
             source.Play();
-            Destroy(tempAudio, pickupSound.length);
-        }
 
-        // ✨ Spawn visual effect
-        if (pickupEffect != null)
+  if (pickupEffect != null)
         {
             Instantiate(pickupEffect, transform.position, Quaternion.identity);
         }
+
+
+            Destroy(tempAudio, pickupSound.length);
+
+        }
+
+        // ✨ Spawn visual effect
+      
 
         // 💰 Add to the coin counter
         CoinManager.Instance?.AddCoin();

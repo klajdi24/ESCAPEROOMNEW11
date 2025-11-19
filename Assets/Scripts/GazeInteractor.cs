@@ -25,7 +25,7 @@ public class GazeInteractor : MonoBehaviour
         // 🔍 Cast the ray
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, interactableLayer))
         {
-            Debug.Log("Ray hit: " + hit.collider.gameObject.name);
+         //   Debug.Log("Ray hit: " + hit.collider.gameObject.name);
 
             var gi = hit.collider.GetComponent<GazeInteractable>();
 

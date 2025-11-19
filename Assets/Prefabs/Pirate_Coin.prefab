@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5196821567537907864
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.29338193
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.29338193
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.29338193
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -8.893311
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.532
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 8.682
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3157a9630ddba48b2869076c1681885d, type: 2}
+    - target: {fileID: 919132149155446097, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      propertyPath: m_Name
+      value: Pirate_Coin
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2229258316845904161}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5942422628500729610}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1503131216592366627}
+  m_SourcePrefab: {fileID: 100100000, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+--- !u!1 &4962888171632375241 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a3c64020d6a8b4db29a647618ef3e6b3, type: 3}
+  m_PrefabInstance: {fileID: 5196821567537907864}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2229258316845904161
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962888171632375241}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2, y: 0.14443026, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5942422628500729610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962888171632375241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GazeInteractable
+  onActivate:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1503131216592366627}
+        m_TargetAssemblyTypeName: CoinPickup, Assembly-CSharp
+        m_MethodName: PickUpCoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+  hoverColor: {r: 1, g: 0.61380404, b: 0.015686274, a: 1}
+--- !u!114 &1503131216592366627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4962888171632375241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a34f2b98a1e545caa0e96cf230776f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CoinPickup
+  pickupSound: {fileID: 8300000, guid: 7ad6534b7035a45cf9fe9accb1a25a3a, type: 3}
+  pickupEffect: {fileID: 8801648854583063606, guid: 4c37719ab2ace42a8b2826df1dbcebf4, type: 3}

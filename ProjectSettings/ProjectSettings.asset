@@ -167,7 +167,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.4
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.DefaultCompany.VRTemplate
+    Android: com.KlajdiBakiri.ShipVR
     Standalone: com.Default-Company.VR-Template
     VisionOS: com.Default-Company.VR-Template
     iPhone: com.Default-Company.VR-Template
@@ -182,7 +182,7 @@ PlayerSettings:
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
   aotOptions: 
-  stripEngineCode: 1
+  stripEngineCode: 0
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
   ForceInternetPermission: 0
