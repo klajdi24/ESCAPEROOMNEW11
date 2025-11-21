@@ -4,42 +4,45 @@ public class CoinManager : MonoBehaviour
 {
     public static CoinManager Instance;
 
-    public int coinCount;
-    public CoinPopupUI popupPrefab;
-private void Awake()
-{
-    Instance = this;
-    Debug.Log("[CoinManager] Awake on object: " + gameObject.name);
-    Debug.Log("[CoinManager] popupPrefab = " + popupPrefab);
-}
+    public GameObject popupPrefab;
+    private int coinCount = 0;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-    public void AddCoin(Vector3 worldPosition)
+        Instance = this;
+
+        if (popupPrefab == null)
+            Debug.LogError("[CoinManager] popupPrefab NOT assigned!");
+        else
+            Debug.Log("[CoinManager] popupPrefab assigned.");
+    }
+
+    public void AddCoin(Vector3 worldPos)
     {
         coinCount++;
-        Debug.Log("[CoinManager] AddCoin called. New coin count = " + coinCount);
-        Debug.Log("[CoinManager] Popup spawn position = " + worldPosition);
 
         if (popupPrefab == null)
         {
-            Debug.LogError("[CoinManager] popupPrefab is NOT assigned!");
+            Debug.LogError("[CoinManager] popupPrefab is NULL");
             return;
         }
 
-        // Spawn popup at world space position
-        CoinPopupUI popup = Instantiate(popupPrefab, worldPosition, Quaternion.identity);
+        // This is the earlier behavior
+        GameObject popup = Instantiate(popupPrefab, worldPos, Quaternion.identity);
 
-        if (popup == null)
-        {
-            Debug.LogError("[CoinManager] FAILED to instantiate popupPrefab!");
-            return;
-        }
-
-        Debug.Log("[CoinManager] Popup instantiated successfully.");
-
-        popup.Show(coinCount);
+        var ui = popup.GetComponent<CoinPopupUI>();
+        if (ui != null)
+            ui.Show(coinCount);
     }
 }
+
+
 
 
 

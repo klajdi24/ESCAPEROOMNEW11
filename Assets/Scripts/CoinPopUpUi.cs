@@ -11,78 +11,53 @@ public class CoinPopupUI : MonoBehaviour
     public float floatDistance = 0.2f;
     public float duration = 1f;
 
-    private CanvasGroup group;
     private Transform vrCamera;
 
-    private void Awake()
+    private void Start()
     {
-        group = GetComponent<CanvasGroup>();
-
-        if (group == null)
-        {
-            Debug.LogWarning("[CoinPopupUI] CanvasGroup missing. Adding one.");
-            group = gameObject.AddComponent<CanvasGroup>();
-        }
-
-        vrCamera = Camera.main != null ? Camera.main.transform : null;
+        vrCamera = Camera.main?.transform;
 
         if (vrCamera == null)
-            Debug.LogError("[CoinPopupUI] VR Camera NOT FOUND! (Camera.main was null)");
-
-        Debug.Log("[CoinPopupUI] Awake complete.");
+            Debug.LogError("[CoinPopupUI] VR Camera not found!");
     }
 
     public void Show(int newCoinCount)
     {
-        Debug.Log("[CoinPopupUI] Show() called. New coin count = " + newCoinCount);
+        text.text = "+1 (" + newCoinCount + ")";
 
-        if (text == null)
-            Debug.LogError("[CoinPopupUI] Text reference NOT assigned!");
-
-        text.text = "+1  (" + newCoinCount + ")";
-
-        StartCoroutine(Animate());
+        StartCoroutine(FloatUp());
     }
 
-    private IEnumerator Animate()
+    private IEnumerator FloatUp()
     {
-        Debug.Log("[CoinPopupUI] Animate() coroutine started.");
+        Vector3 startPos = transform.position;
+        Vector3 endPos = startPos + new Vector3(0, floatDistance, 0);
 
-        Vector3 start = transform.position;
-        Vector3 end = start + Vector3.up * floatDistance;
-
-        float t = 0f;
+        float t = 0;
 
         while (t < duration)
         {
             t += Time.deltaTime;
-            float n = t / duration;
+            float progress = t / duration;
 
-            // Always face camera in VR
             if (vrCamera != null)
             {
                 transform.LookAt(vrCamera);
                 transform.Rotate(0, 180, 0);
             }
-            else
-            {
-                Debug.LogWarning("[CoinPopupUI] No VR camera found during animation.");
-            }
 
-            // Move upward
-            transform.position = Vector3.Lerp(start, end, n);
-
-            // Fade out
-            group.alpha = 1 - n;
+            transform.position = Vector3.Lerp(startPos, endPos, progress);
 
             yield return null;
         }
 
-        Debug.Log("[CoinPopupUI] Animation finished. Destroying popup.");
-
         Destroy(gameObject);
     }
 }
+
+
+
+
 
 
 
