@@ -13712,6 +13712,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'CoinPopUpUI '
       objectReference: {fileID: 0}
+    - target: {fileID: 5164166777264977689, guid: 1ad86d44432af43bcb3684492a83c667, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

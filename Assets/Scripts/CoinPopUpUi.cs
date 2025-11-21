@@ -23,7 +23,9 @@ public class CoinPopupUI : MonoBehaviour
 
     public void Show(int newCoinCount)
     {
-        text.text = "+1 (" + newCoinCount + ")";
+        // Show ONLY the coin count
+        text.text = newCoinCount.ToString();
+        text.color = Color.white;
 
         StartCoroutine(FloatUp());
     }
@@ -40,12 +42,14 @@ public class CoinPopupUI : MonoBehaviour
             t += Time.deltaTime;
             float progress = t / duration;
 
+            // Face the VR camera
             if (vrCamera != null)
             {
                 transform.LookAt(vrCamera);
                 transform.Rotate(0, 180, 0);
             }
 
+            // Floating movement
             transform.position = Vector3.Lerp(startPos, endPos, progress);
 
             yield return null;
@@ -54,6 +58,7 @@ public class CoinPopupUI : MonoBehaviour
         Destroy(gameObject);
     }
 }
+
 
 
 
