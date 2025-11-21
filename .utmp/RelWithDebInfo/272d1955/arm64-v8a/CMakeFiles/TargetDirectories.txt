@@ -1,0 +1,5 @@
+/Users/k2-bakiri/Documents/GitHub/ESCAPEROOMNEW11/.utmp/RelWithDebInfo/272d1955/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/k2-bakiri/Documents/GitHub/ESCAPEROOMNEW11/.utmp/RelWithDebInfo/272d1955/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/k2-bakiri/Documents/GitHub/ESCAPEROOMNEW11/.utmp/RelWithDebInfo/272d1955/arm64-v8a/GameActivity/CMakeFiles/game.dir
+/Users/k2-bakiri/Documents/GitHub/ESCAPEROOMNEW11/.utmp/RelWithDebInfo/272d1955/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+/Users/k2-bakiri/Documents/GitHub/ESCAPEROOMNEW11/.utmp/RelWithDebInfo/272d1955/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
