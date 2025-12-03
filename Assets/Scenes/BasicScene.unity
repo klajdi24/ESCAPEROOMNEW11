@@ -773,7 +773,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReferencePerformed: {fileID: 0}
+    m_InputActionReferencePerformed: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
     m_InputActionReferenceValue: {fileID: 0}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualPerformed: 0
@@ -917,7 +917,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_InputActionReferencePerformed: {fileID: -6131295136447488360, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+    m_InputActionReferencePerformed: {fileID: 0}
     m_InputActionReferenceValue: {fileID: 0}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualPerformed: 0
@@ -1041,6 +1041,33 @@ MonoBehaviour:
     m_InputActionReference: {fileID: 0}
     m_ObjectReferenceObject: {fileID: 0}
     m_ManualValue: 0
+--- !u!54 &97410826
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97410819}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &122930371 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1110963969226410230, guid: e65ab7dc8dbb0486580ac255a8a785dd, type: 3}
@@ -2119,9 +2146,9 @@ MonoBehaviour:
   m_SelectMode: 0
   m_FocusMode: 1
   m_CustomReticle: {fileID: 0}
-  m_AllowGazeInteraction: 0
-  m_AllowGazeSelect: 0
-  m_OverrideGazeTimeToSelect: 0
+  m_AllowGazeInteraction: 1
+  m_AllowGazeSelect: 1
+  m_OverrideGazeTimeToSelect: 1
   m_GazeTimeToSelect: 0.5
   m_OverrideTimeToAutoDeselectGaze: 0
   m_TimeToAutoDeselectGaze: 3
@@ -2134,7 +2161,19 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 382020559}
+        m_TargetAssemblyTypeName: GazeInteractable, Assembly-CSharp
+        m_MethodName: OnGazeActivate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_HoverExited:
     m_PersistentCalls:
       m_Calls: []
@@ -2164,19 +2203,7 @@ MonoBehaviour:
       m_Calls: []
   m_Activated:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 382020559}
-        m_TargetAssemblyTypeName: GazeInteractable, Assembly-CSharp
-        m_MethodName: OnGazeActivate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_Deactivated:
     m_PersistentCalls:
       m_Calls: []
@@ -2205,6 +2232,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GazeInteractable
+--- !u!114 &382020564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382020544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e254d5da78e164d7b917c6fc40498651, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  horizontalRadius: 0.98
+  verticalAmplitude: 0.44
+  movementSpeed: 3.82
+  spinSpeed: 194.6
 --- !u!1001 &418136103
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2621,6 +2664,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 97410825}
+    - targetCorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 97410826}
   m_SourcePrefab: {fileID: 100100000, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
 --- !u!1 &441568758 stripped
 GameObject:
@@ -17706,7 +17752,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5734323485167251315, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.682
+      value: 13.34
       objectReference: {fileID: 0}
     - target: {fileID: 5734323485167251315, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -17735,6 +17781,10 @@ PrefabInstance:
     - target: {fileID: 5734323485167251315, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -34.242
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942422628500729610, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
+      propertyPath: dwellTime
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5942422628500729610, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
       propertyPath: primaryInteractionAction.m_Reference
@@ -17814,6 +17864,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4962888171632375241, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 382020557}
+    - targetCorrespondingSourceObject: {fileID: 4962888171632375241, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 382020564}
   m_SourcePrefab: {fileID: 100100000, guid: 10e3655b716464a779291a9c14e561c2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
