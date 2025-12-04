@@ -4528,7 +4528,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -4867,7 +4867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 32.2
   primaryInteractionAction:
     m_UseReference: 1
     m_Action:
@@ -6778,7 +6778,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -7256,7 +7256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -7521,7 +7521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -8340,7 +8340,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -10260,7 +10260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -10565,7 +10565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dwellTime: 1.2
+  dwellTime: 30
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
