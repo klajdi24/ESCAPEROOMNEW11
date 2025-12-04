@@ -408,7 +408,7 @@ MonoBehaviour:
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Primary Interaction
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: 46032ff8-0f0c-418d-92e6-5349f61e8fa7
@@ -2485,7 +2485,7 @@ MonoBehaviour:
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Primary Interaction
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: b1fb3d70-3b9b-4368-9a66-d9d95c1f7873
@@ -6255,7 +6255,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -9.25, y: 6.161}
+  m_AnchoredPosition: {x: -10.734, y: 6.161}
   m_SizeDelta: {x: 447.6711, y: 571.7914}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1354794448
@@ -7804,7 +7804,7 @@ MonoBehaviour:
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
+      m_Name: Primary Interaction
       m_Type: 0
       m_ExpectedControlType: 
       m_Id: f1fcc2e6-4012-4b16-9793-5132d93aec7a
@@ -8169,7 +8169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad1a44e1987f7435b9643ee6adffecd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GazeInteractable
-  dwellTime: 5
+  dwellTime: 15.83
   primaryInteractionAction:
     m_UseReference: 0
     m_Action:
@@ -8290,7 +8290,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1935287862}
         m_TargetAssemblyTypeName: GazeInteractable, Assembly-CSharp
-        m_MethodName: OnGazeActivate
+        m_MethodName: OnGazeEnter
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8302,7 +8302,19 @@ MonoBehaviour:
         m_CallState: 2
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1935287862}
+        m_TargetAssemblyTypeName: GazeInteractable, Assembly-CSharp
+        m_MethodName: OnGazeExit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_FirstSelectEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -8311,7 +8323,19 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1935287861}
+        m_TargetAssemblyTypeName: CoinPickup, Assembly-CSharp
+        m_MethodName: PickUpCoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_SelectExited:
     m_PersistentCalls:
       m_Calls: []

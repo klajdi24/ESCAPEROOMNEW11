@@ -6,7 +6,7 @@ public class GazeInteractable : MonoBehaviour
 {
     [Header("Gaze Settings")]
     [Tooltip("Time (in seconds) the player must gaze to activate.")]
-    public float dwellTime = 1.2f;
+    public float dwellTime = 5f;
 
     // The Inspector reference is BACK! You must link this in the Inspector.
     [Header("Controller Settings")]
@@ -72,6 +72,7 @@ public class GazeInteractable : MonoBehaviour
             if (dwellTimer >= dwellTime)
             {
                 OnGazeActivate();
+                
             }
         }
     }
@@ -79,6 +80,8 @@ public class GazeInteractable : MonoBehaviour
     // Called by the VR system when the ray hits this object (Hover/Color Change)
     public void OnGazeEnter()
     {
+
+        Debug.Log("hover");
         if (isHovered) return;
 
         isHovered = true;
@@ -91,6 +94,9 @@ public class GazeInteractable : MonoBehaviour
     // Called by the VR system when the ray leaves this object
     public void OnGazeExit()
     {
+
+
+        Debug.Log("exit");
         isHovered = false;
         isActivated = false;
         dwellTimer = 0f;
@@ -102,6 +108,9 @@ public class GazeInteractable : MonoBehaviour
     // Activated by either the Update loop (Gaze Dwell) or Controller Check
     public void OnGazeActivate()
     {
+
+
+        Debug.Log("active");
         if (isActivated) return;
 
         isActivated = true;
