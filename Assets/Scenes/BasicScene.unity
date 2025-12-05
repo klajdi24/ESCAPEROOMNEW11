@@ -3305,7 +3305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d320e8e77b99b49a3ae92e9ce6caf311, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetCoinObject: {fileID: 382020544}
 --- !u!114 &502129152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9808,34 +9807,10 @@ MonoBehaviour:
         m_CallState: 2
   onHoverEnter:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2049790499}
-        m_TargetAssemblyTypeName: GazeInteractable, Assembly-CSharp
-        m_MethodName: OnGazeEnter
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onHoverExit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2049790499}
-        m_TargetAssemblyTypeName: GazeInteractable, Assembly-CSharp
-        m_MethodName: OnGazeExit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   hoverColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!65 &2049790500
 BoxCollider:
