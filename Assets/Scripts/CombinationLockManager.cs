@@ -1,60 +1,89 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class CombinationLockManager : MonoBehaviour
 {
-    [Header("Lock Settings")]
-    [Tooltip("The correct four-digit code (e.g., 1234)")]
-    public int[] correctCode = new int[4];
-
-    [Tooltip("The current numbers displayed on the tumblers")]
-    public int[] currentCode = new int[4];
+    [Header("Lock Configuration")]
+    public string correctCode = "1805";
+    public string currentCode = "0000";
+    public float unlockDelay = 1.0f;
 
     [Header("Events")]
     public UnityEvent onLockOpened;
-    public UnityEvent onIncorrectAttempt;
 
-    // Call this from the tumbler buttons to update the code
+    [Header("Audio")]
+    public AudioSource coinAudioSource;  // Audio plays on the coin
+
+    private bool isLocked = true;
+    private bool audioPlayed = false;
+
+    void Start()
+    {
+        if (coinAudioSource == null)
+        {
+            Debug.LogError("CombinationLockManager: No coin AudioSource assigned!");
+        }
+    }
+
     public void UpdateTumbler(int tumblerIndex, int direction)
     {
-        // tumblerIndex: 0, 1, 2, or 3 (for the four tumblers)
-        // direction: +1 for Up, -1 for Down
+        if (!isLocked) return;
 
-        // 1. Update the number based on the direction
-        currentCode[tumblerIndex] += direction;
-
-        // 2. Handle wrapping (0-9 range)
-        if (currentCode[tumblerIndex] > 9)
+        if (tumblerIndex >= 0 && tumblerIndex < currentCode.Length)
         {
-            currentCode[tumblerIndex] = 0;
-        }
-        else if (currentCode[tumblerIndex] < 0)
-        {
-            currentCode[tumblerIndex] = 9;
-        }
+            int currentDigit = int.Parse(currentCode[tumblerIndex].ToString());
+            currentDigit = (currentDigit + direction + 10) % 10;
 
-        // 3. Optional: Trigger a visual update on the tumbler (e.g., update TextMeshPro)
-        // You'll need a way to reference the actual tumbler object here.
-        // For now, we'll focus on the logic.
+            char[] temp = currentCode.ToCharArray();
+            temp[tumblerIndex] = (char)('0' + currentDigit);
+            currentCode = new string(temp);
 
-        // 4. Check the combination after every change
-        CheckCombination();
+            CheckCode();
+        }
     }
 
-    private void CheckCombination()
+    private void CheckCode()
     {
-        for (int i = 0; i < 4; i++)
+        if (currentCode == correctCode && isLocked)
         {
-            // If any number is wrong, the combination is incorrect
-            if (currentCode[i] != correctCode[i])
-            {
-                // If it was previously correct, but now it's wrong, we might fire an event here.
-                // For simplicity, we just stop checking.
-                return;
-            }
-        }
+            isLocked = false;
 
-        // If the loop completes, all four digits match!
+            // --- Ensure coin is active BEFORE playing audio ---
+            GameObject coinObj = coinAudioSource.gameObject;
+            if (!coinObj.activeInHierarchy)
+            {
+                coinObj.SetActive(true);
+                Debug.Log("Coin activated before playing audio.");
+            }
+
+            // --- Play audio ---
+            if (!audioPlayed && coinAudioSource != null)
+            {
+                coinAudioSource.Play();
+                audioPlayed = true;
+                Debug.Log("Correct Code Entered. Playing coin audio...");
+            }
+
+            StartCoroutine(UnlockSequenceAfterDelay());
+        }
+    }
+
+    private IEnumerator UnlockSequenceAfterDelay()
+    {
+        yield return new WaitForSeconds(unlockDelay);
         onLockOpened.Invoke();
+        Debug.Log("Lock Opened Event Invoked.");
+    }
+
+    public void ResetLock()
+    {
+        isLocked = true;
+        currentCode = "0000";
+        audioPlayed = false;
+        Debug.Log("Lock state reset.");
     }
 }
+
+
+
