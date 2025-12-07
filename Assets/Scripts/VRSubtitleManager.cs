@@ -6,62 +6,74 @@ using System.Collections;
 public class VRSubtitleManager : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TextMeshProUGUI subtitleText;
-    public Image characterIcon;
+    public TextMeshProUGUI subtitleText;   // Assign in Canvas
+    public Image characterIcon;            // Optional: assign Image for character icon
+
+    [Header("VR Settings")]
+    public Transform playerCamera;         // XR Camera
 
     [Header("Timing")]
-    public float charactersPerSecond = 20f; // typing speed
-    public float extraHoldTime = 1.0f;      // extra time after audio ends
+    [Tooltip("Number of words displayed per second. Adjust to sync subtitle pacing with audio.")]
+    public float wordsPerSecond = 2f;      // Inspector-adjustable
 
-    [Header("VR")]
-    public Transform playerCamera; // assign XR camera
+    public float extraHoldTime = 0.3f;     // Extra pause after each sentence
 
     private Coroutine subtitleRoutine;
 
     void Update()
     {
-        // Make subtitles always face the player
+        // Keep subtitles facing the player
         if (playerCamera != null)
         {
             transform.LookAt(playerCamera);
-            transform.Rotate(0, 180, 0); 
+            transform.Rotate(0, 180f, 0);  // Flip correctly
         }
     }
 
-    public void ShowSubtitles(string subtitle, AudioClip audio, Sprite speakerIcon = null)
+    /// <summary>
+    /// Show subtitles one sentence at a time.
+    /// </summary>
+    public void ShowSubtitles(string[] sentences, Sprite speakerIcon = null)
     {
         if (subtitleRoutine != null)
             StopCoroutine(subtitleRoutine);
 
-        subtitleRoutine = StartCoroutine(SubtitleSequence(subtitle, audio, speakerIcon));
+        subtitleRoutine = StartCoroutine(SubtitleSequence(sentences, speakerIcon));
     }
 
-    private IEnumerator SubtitleSequence(string subtitle, AudioClip audio, Sprite speakerIcon)
+    private IEnumerator SubtitleSequence(string[] sentences, Sprite speakerIcon)
     {
-        // Set speaker icon
-        if (characterIcon != null)
+        if (characterIcon != null && speakerIcon != null)
             characterIcon.sprite = speakerIcon;
 
-        subtitleText.text = "";
-        float typingTime = subtitle.Length / charactersPerSecond;
-
-        float displayDuration = audio.length + extraHoldTime;
-
-        // TYPE OUT THE SUBTITLES
-        float timer = 0f;
-        while (timer < typingTime)
+        foreach (string sentence in sentences)
         {
-            timer += Time.deltaTime;
-            int charsToShow = Mathf.FloorToInt((timer / typingTime) * subtitle.Length);
-            subtitleText.text = subtitle.Substring(0, charsToShow);
-            yield return null;
+            subtitleText.text = ""; // Clear previous sentence
+
+            string[] words = sentence.Split(' ');
+
+            for (int i = 0; i < words.Length; i++)
+            {
+                subtitleText.text += words[i] + " ";
+
+                // Wait based on Inspector-controlled wordsPerSecond
+                yield return new WaitForSeconds(1f / wordsPerSecond);
+            }
+
+            // Hold sentence for readability
+            yield return new WaitForSeconds(extraHoldTime);
+
+            // Clear for next sentence
+            subtitleText.text = "";
         }
-
-        subtitleText.text = subtitle;
-
-        yield return new WaitForSeconds(displayDuration);
-
-        subtitleText.text = "";
     }
 }
+
+
+
+
+
+
+
+
 
