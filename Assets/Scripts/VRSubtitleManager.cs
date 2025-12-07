@@ -41,32 +41,34 @@ public class VRSubtitleManager : MonoBehaviour
         subtitleRoutine = StartCoroutine(SubtitleSequence(sentences, speakerIcon));
     }
 
-    private IEnumerator SubtitleSequence(string[] sentences, Sprite speakerIcon)
+   private IEnumerator SubtitleSequence(string[] sentences, Sprite speakerIcon)
+{
+    if (characterIcon != null && speakerIcon != null)
+        characterIcon.sprite = speakerIcon;
+
+    // Ensure the subtitle panel is active at start
+    gameObject.SetActive(true);
+
+    foreach (string sentence in sentences)
     {
-        if (characterIcon != null && speakerIcon != null)
-            characterIcon.sprite = speakerIcon;
+        subtitleText.text = ""; // Clear previous sentence
 
-        foreach (string sentence in sentences)
+        string[] words = sentence.Split(' ');
+
+        for (int i = 0; i < words.Length; i++)
         {
-            subtitleText.text = ""; // Clear previous sentence
-
-            string[] words = sentence.Split(' ');
-
-            for (int i = 0; i < words.Length; i++)
-            {
-                subtitleText.text += words[i] + " ";
-
-                // Wait based on Inspector-controlled wordsPerSecond
-                yield return new WaitForSeconds(1f / wordsPerSecond);
-            }
-
-            // Hold sentence for readability
-            yield return new WaitForSeconds(extraHoldTime);
-
-            // Clear for next sentence
-            subtitleText.text = "";
+            subtitleText.text += words[i] + " ";
+            yield return new WaitForSeconds(1f / wordsPerSecond);
         }
+
+        yield return new WaitForSeconds(extraHoldTime);
+        subtitleText.text = "";
     }
+
+    // After all sentences, hide the subtitle panel
+    gameObject.SetActive(false);
+}
+
 }
 
 
