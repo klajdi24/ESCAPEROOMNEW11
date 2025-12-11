@@ -4669,7 +4669,7 @@ GameObject:
   - component: {fileID: 797329318}
   - component: {fileID: 797329317}
   m_Layer: 0
-  m_Name: wewere
+  m_Name: Teleport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
