@@ -6,33 +6,35 @@ using System.Collections;
 public class VRSubtitleManager : MonoBehaviour
 {
     [Header("UI Elements")]
-    public TextMeshProUGUI subtitleText;   // Assign in Canvas
-    public Image characterIcon;            // Optional: assign Image for character icon
+    public GameObject subtitlePanel;        // The panel object you disable/enable
+    public TextMeshProUGUI subtitleText;
+    public Image characterIcon;
 
     [Header("VR Settings")]
-    public Transform playerCamera;         // XR Camera
+    public Transform playerCamera;
 
     [Header("Timing")]
-    [Tooltip("Number of words displayed per second. Adjust to sync subtitle pacing with audio.")]
-    public float wordsPerSecond = 2f;      // Inspector-adjustable
-
-    public float extraHoldTime = 0.3f;     // Extra pause after each sentence
+    public float wordsPerSecond = 3f;
+    public float extraHoldTime = 0.3f;
 
     private Coroutine subtitleRoutine;
 
+    void Start()
+    {
+        // Make sure panel is hidden at start
+        if (subtitlePanel != null)
+            subtitlePanel.SetActive(false);
+    }
+
     void Update()
     {
-        // Keep subtitles facing the player
         if (playerCamera != null)
         {
             transform.LookAt(playerCamera);
-            transform.Rotate(0, 180f, 0);  // Flip correctly
+            transform.Rotate(0, 180f, 0);
         }
     }
 
-    /// <summary>
-    /// Show subtitles one sentence at a time.
-    /// </summary>
     public void ShowSubtitles(string[] sentences, Sprite speakerIcon = null)
     {
         if (subtitleRoutine != null)
@@ -41,35 +43,39 @@ public class VRSubtitleManager : MonoBehaviour
         subtitleRoutine = StartCoroutine(SubtitleSequence(sentences, speakerIcon));
     }
 
-   private IEnumerator SubtitleSequence(string[] sentences, Sprite speakerIcon)
-{
-    if (characterIcon != null && speakerIcon != null)
-        characterIcon.sprite = speakerIcon;
-
-    // Ensure the subtitle panel is active at start
-    gameObject.SetActive(true);
-
-    foreach (string sentence in sentences)
+    private IEnumerator SubtitleSequence(string[] sentences, Sprite speakerIcon)
     {
-        subtitleText.text = ""; // Clear previous sentence
+        // Apply speaker icon
+        if (characterIcon != null && speakerIcon != null)
+            characterIcon.sprite = speakerIcon;
 
-        string[] words = sentence.Split(' ');
+        // --- IMPORTANT ---
+        // Activate ONLY the subtitle panel, NOT the entire Canvas
+        subtitlePanel.SetActive(true);
 
-        for (int i = 0; i < words.Length; i++)
+        foreach (string sentence in sentences)
         {
-            subtitleText.text += words[i] + " ";
-            yield return new WaitForSeconds(1f / wordsPerSecond);
+            subtitleText.text = "";
+            string[] words = sentence.Split(' ');
+
+            foreach (string w in words)
+            {
+                subtitleText.text += w + " ";
+                yield return new WaitForSeconds(1f / wordsPerSecond);
+            }
+
+            yield return new WaitForSeconds(extraHoldTime);
+            subtitleText.text = "";
         }
 
-        yield return new WaitForSeconds(extraHoldTime);
-        subtitleText.text = "";
+        // Hide afterwards
+        subtitlePanel.SetActive(false);
     }
-
-    // After all sentences, hide the subtitle panel
-    gameObject.SetActive(false);
 }
 
-}
+
+
+
 
 
 

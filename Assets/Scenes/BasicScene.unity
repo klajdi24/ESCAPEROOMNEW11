@@ -303,6 +303,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e2919a5c93c4242ab2a45d3ffc602a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  subtitlePanel: {fileID: 713046716}
   subtitleText: {fileID: 2118036075}
   characterIcon: {fileID: 226256664}
   playerCamera: {fileID: 130220509}
@@ -4317,7 +4318,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &713046717
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11481,21 +11482,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Well, blow me down. Look at the little landlubber. You actually got the
-    lock open.
-
-    Figured you''d be stuck on that for days. I really did. Don''t
-    worry, I won''t tell the crew you only beat the first puzzle because I accidentally
-    left the code as 1805.
-
-    Alright, listen up, bilge rat. The next secret ain''t
-    hidden in a chest. It''s staring you right in the face.
-
-    But your thick skull
-    keeps missing the shine. You gotta look closer. It''s a bright clue, matey.
-
-    Now
-    stop scratching your head like a monkey.'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11522,7 +11509,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 48.03
   m_fontSizeBase: 48.03
   m_fontWeight: 400
   m_enableAutoSizing: 1
