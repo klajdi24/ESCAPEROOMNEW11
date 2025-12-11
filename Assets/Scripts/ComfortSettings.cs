@@ -15,6 +15,10 @@ public class ComfortSettingsMenu : MonoBehaviour
     public Slider motionSensitivitySlider;
     public Toggle gazeToggle;
 
+    [Header("Audio Sliders")]
+    public Slider musicVolumeSlider;
+    public Slider sfxVolumeSlider;
+
     [Header("Scene References")]
     public Light sceneLight;
     public MonoBehaviour gazeInteractor;
@@ -54,9 +58,11 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void Start()
     {
+        // --- Close button ---
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
 
+        // --- Brightness ---
         if (brightnessSlider != null)
         {
             brightnessSlider.minValue = 0f;
@@ -66,6 +72,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             SetBrightness(brightnessSlider.value);
         }
 
+        // --- Motion Sensitivity ---
         if (motionSensitivitySlider != null)
         {
             motionSensitivitySlider.minValue = 0f;
@@ -74,24 +81,39 @@ public class ComfortSettingsMenu : MonoBehaviour
             motionSensitivitySlider.onValueChanged.AddListener(SetMotionSensitivity);
         }
 
+        // --- Gaze Toggle ---
         if (gazeToggle != null)
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
 
         if (gazeInteractor != null && gazeToggle != null)
             gazeToggle.isOn = gazeInteractor.enabled;
 
+        // --- Audio Sliders ---
+        if (musicVolumeSlider != null && AudioManager.instance != null)
+        {
+            musicVolumeSlider.minValue = 0f;
+            musicVolumeSlider.maxValue = 1f;
+            musicVolumeSlider.value = AudioManager.instance.musicVolume;
+            musicVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
+        }
+
+        if (sfxVolumeSlider != null && AudioManager.instance != null)
+        {
+            sfxVolumeSlider.minValue = 0f;
+            sfxVolumeSlider.maxValue = 1f;
+            sfxVolumeSlider.value = AudioManager.instance.sfxVolume;
+            sfxVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
+        }
+
+        // --- Move Provider Speed Reflection ---
         if (moveProvider != null)
         {
             Type t = moveProvider.GetType();
 
-            moveSpeedProperty = t.GetProperty("moveSpeed",
-                BindingFlags.Public | BindingFlags.Instance);
+            moveSpeedProperty = t.GetProperty("moveSpeed", BindingFlags.Public | BindingFlags.Instance);
 
             if (moveSpeedProperty == null)
-            {
-                moveSpeedField = t.GetField("moveSpeed",
-                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-            }
+                moveSpeedField = t.GetField("moveSpeed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
 
             try
             {
@@ -101,9 +123,7 @@ public class ComfortSettingsMenu : MonoBehaviour
                     baseMoveSpeed = (float)moveSpeedField.GetValue(moveProvider);
                 else
                 {
-                    var propAlt = t.GetProperty("m_MoveSpeed",
-                        BindingFlags.NonPublic | BindingFlags.Instance);
-
+                    var propAlt = t.GetProperty("m_MoveSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
                     if (propAlt != null)
                         baseMoveSpeed = (float)propAlt.GetValue(moveProvider);
                 }
@@ -195,9 +215,7 @@ public class ComfortSettingsMenu : MonoBehaviour
                 return;
             }
 
-            var propAlt = moveProvider.GetType().GetProperty("m_MoveSpeed",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-
+            var propAlt = moveProvider.GetType().GetProperty("m_MoveSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
             if (propAlt != null)
             {
                 propAlt.SetValue(moveProvider, newSpeed);
@@ -219,8 +237,7 @@ public class ComfortSettingsMenu : MonoBehaviour
         gazeInteractor.enabled = isEnabled;
 
         var t = gazeInteractor.GetType();
-        var reticleProp = t.GetProperty("reticle",
-            BindingFlags.Public | BindingFlags.Instance);
+        var reticleProp = t.GetProperty("reticle", BindingFlags.Public | BindingFlags.Instance);
 
         if (reticleProp != null)
         {
@@ -230,9 +247,7 @@ public class ComfortSettingsMenu : MonoBehaviour
         }
         else
         {
-            var reticleField = t.GetField("reticle",
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-
+            var reticleField = t.GetField("reticle", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
             if (reticleField != null)
             {
                 Component retObj = reticleField.GetValue(gazeInteractor) as Component;
@@ -242,3 +257,4 @@ public class ComfortSettingsMenu : MonoBehaviour
         }
     }
 }
+
