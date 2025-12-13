@@ -19,12 +19,14 @@ public class ComfortSettingsMenu : MonoBehaviour
     public Slider musicVolumeSlider;
     public Slider sfxVolumeSlider;
 
+    [Header("Scene Lighting")]
+    public Light[] sceneLights; // MULTIPLE LIGHTS
+    private float[] baseLightIntensities;
+
     [Header("Scene References")]
-    public Light sceneLight;
     public MonoBehaviour gazeInteractor;
 
     [Header("XR Locomotion")]
-    [Tooltip("Drag the Move Provider component (ContinuousMoveProviderBase, DeviceBased, ActionBased, etc.)")]
     public Component moveProvider;
 
     [Header("Placement")]
@@ -36,7 +38,6 @@ public class ComfortSettingsMenu : MonoBehaviour
     private float baseMoveSpeed = 1f;
 
     private InputAction toggleAction;
-
     private PropertyInfo moveSpeedProperty;
     private FieldInfo moveSpeedField;
 
@@ -58,11 +59,20 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        // --- Close button ---
+        // Cache original light intensities
+        if (sceneLights != null && sceneLights.Length > 0)
+        {
+            baseLightIntensities = new float[sceneLights.Length];
+            for (int i = 0; i < sceneLights.Length; i++)
+            {
+                baseLightIntensities[i] = sceneLights[i].intensity;
+            }
+        }
+
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
 
-        // --- Brightness ---
+        // -------- Brightness --------
         if (brightnessSlider != null)
         {
             brightnessSlider.minValue = 0f;
@@ -72,7 +82,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             SetBrightness(brightnessSlider.value);
         }
 
-        // --- Motion Sensitivity ---
+        // -------- Motion Sensitivity --------
         if (motionSensitivitySlider != null)
         {
             motionSensitivitySlider.minValue = 0f;
@@ -81,39 +91,32 @@ public class ComfortSettingsMenu : MonoBehaviour
             motionSensitivitySlider.onValueChanged.AddListener(SetMotionSensitivity);
         }
 
-        // --- Gaze Toggle ---
+        // -------- Gaze --------
         if (gazeToggle != null)
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
 
         if (gazeInteractor != null && gazeToggle != null)
             gazeToggle.isOn = gazeInteractor.enabled;
 
-        // --- Audio Sliders ---
+        // -------- Audio --------
         if (musicVolumeSlider != null && AudioManager.instance != null)
         {
-            musicVolumeSlider.minValue = 0f;
-            musicVolumeSlider.maxValue = 1f;
             musicVolumeSlider.value = AudioManager.instance.musicVolume;
             musicVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetMusicVolume);
         }
 
         if (sfxVolumeSlider != null && AudioManager.instance != null)
         {
-            sfxVolumeSlider.minValue = 0f;
-            sfxVolumeSlider.maxValue = 1f;
             sfxVolumeSlider.value = AudioManager.instance.sfxVolume;
             sfxVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
         }
 
-        // --- Move Provider Speed Reflection ---
+        // -------- Locomotion Reflection --------
         if (moveProvider != null)
         {
             Type t = moveProvider.GetType();
-
             moveSpeedProperty = t.GetProperty("moveSpeed", BindingFlags.Public | BindingFlags.Instance);
-
-            if (moveSpeedProperty == null)
-                moveSpeedField = t.GetField("moveSpeed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+            moveSpeedField = t.GetField("moveSpeed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
 
             try
             {
@@ -121,17 +124,8 @@ public class ComfortSettingsMenu : MonoBehaviour
                     baseMoveSpeed = (float)moveSpeedProperty.GetValue(moveProvider);
                 else if (moveSpeedField != null)
                     baseMoveSpeed = (float)moveSpeedField.GetValue(moveProvider);
-                else
-                {
-                    var propAlt = t.GetProperty("m_MoveSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
-                    if (propAlt != null)
-                        baseMoveSpeed = (float)propAlt.GetValue(moveProvider);
-                }
             }
-            catch (Exception ex)
-            {
-                Debug.LogWarning("ComfortSettingsMenu: Could not read moveSpeed: " + ex.Message);
-            }
+            catch { }
         }
     }
 
@@ -144,117 +138,66 @@ public class ComfortSettingsMenu : MonoBehaviour
     private void ToggleMenu()
     {
         menuOpen = !menuOpen;
-
-        if (settingsPanel == null)
-        {
-            Debug.LogWarning("ComfortSettingsMenu: settingsPanel not assigned.");
-            return;
-        }
+        settingsPanel.SetActive(menuOpen);
 
         if (menuOpen)
-        {
             PlacePanelInFrontOfPlayer();
-            settingsPanel.SetActive(true);
-        }
-        else
-        {
-            settingsPanel.SetActive(false);
-        }
     }
 
     private void PlacePanelInFrontOfPlayer()
     {
-        if (playerCamera == null)
-            return;
-
-        Vector3 target = playerCamera.transform.position
-                         + playerCamera.transform.forward.normalized * openDistance
-                         + Vector3.up * verticalOffset;
+        Vector3 target = playerCamera.transform.position +
+                         playerCamera.transform.forward * openDistance +
+                         Vector3.up * verticalOffset;
 
         settingsPanel.transform.position = target;
-
-        Vector3 faceDirection = playerCamera.transform.forward;
-        faceDirection.y = 0f;
-
-        settingsPanel.transform.rotation = Quaternion.LookRotation(faceDirection);
+        settingsPanel.transform.rotation = Quaternion.LookRotation(playerCamera.transform.forward);
     }
 
     public void CloseMenu()
     {
         menuOpen = false;
-        if (settingsPanel != null)
-            settingsPanel.SetActive(false);
+        settingsPanel.SetActive(false);
     }
 
+    // ================= BRIGHTNESS =================
     private void SetBrightness(float value)
     {
-        if (sceneLight == null) return;
+        if (sceneLights == null || baseLightIntensities == null) return;
 
-        float newIntensity = Mathf.Lerp(0.2f, 3f, value);
-        sceneLight.intensity = newIntensity;
+        for (int i = 0; i < sceneLights.Length; i++)
+        {
+            if (sceneLights[i] != null)
+            {
+                sceneLights[i].intensity =
+                    Mathf.Lerp(0.2f, baseLightIntensities[i], value);
+            }
+        }
     }
 
+    // ================= MOTION =================
     private void SetMotionSensitivity(float value)
     {
         if (moveProvider == null) return;
 
-        float multiplier = Mathf.Lerp(0.5f, 2f, value);
-        float newSpeed = baseMoveSpeed * multiplier;
+        float newSpeed = baseMoveSpeed * Mathf.Lerp(0.5f, 2f, value);
 
         try
         {
             if (moveSpeedProperty != null)
-            {
                 moveSpeedProperty.SetValue(moveProvider, newSpeed);
-                return;
-            }
-
-            if (moveSpeedField != null)
-            {
+            else if (moveSpeedField != null)
                 moveSpeedField.SetValue(moveProvider, newSpeed);
-                return;
-            }
-
-            var propAlt = moveProvider.GetType().GetProperty("m_MoveSpeed", BindingFlags.NonPublic | BindingFlags.Instance);
-            if (propAlt != null)
-            {
-                propAlt.SetValue(moveProvider, newSpeed);
-                return;
-            }
-
-            Debug.LogWarning("ComfortSettingsMenu: moveSpeed not found, cannot modify speed.");
         }
-        catch (Exception ex)
-        {
-            Debug.LogWarning("ComfortSettingsMenu: Could not set moveSpeed: " + ex.Message);
-        }
+        catch { }
     }
 
+    // ================= GAZE =================
     private void SetGazeEnabled(bool isEnabled)
     {
-        if (gazeInteractor == null) return;
-
-        gazeInteractor.enabled = isEnabled;
-
-        var t = gazeInteractor.GetType();
-        var reticleProp = t.GetProperty("reticle", BindingFlags.Public | BindingFlags.Instance);
-
-        if (reticleProp != null)
-        {
-            Component retObj = reticleProp.GetValue(gazeInteractor) as Component;
-            if (retObj != null)
-                retObj.gameObject.SetActive(isEnabled);
-        }
-        else
-        {
-            var reticleField = t.GetField("reticle", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-            if (reticleField != null)
-            {
-                Component retObj = reticleField.GetValue(gazeInteractor) as Component;
-                if (retObj != null)
-                    retObj.gameObject.SetActive(isEnabled);
-            }
-        }
+        if (gazeInteractor != null)
+            gazeInteractor.enabled = isEnabled;
     }
 }
+
 
