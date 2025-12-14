@@ -11879,7 +11879,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalRadius: 0.59
   verticalAmplitude: 0.17
-  movementSpeed: 2.31
+  movementSpeed: 1.12
   spinSpeed: 190.2
 --- !u!114 &2052573312
 MonoBehaviour:
