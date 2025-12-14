@@ -9,7 +9,7 @@ public class GazeInteractor : MonoBehaviour
 
     [Header("Gaze Timing")]
     public float dwellTime = 1.2f;
-    public float hoverGraceTime = 0.15f; // 👈 NEW (important)
+    public float hoverGraceTime = 0.15f; 
 
     [Header("Visuals")]
     public Transform reticle;
@@ -35,7 +35,7 @@ public class GazeInteractor : MonoBehaviour
 
             if (gi != null)
             {
-                // Reset grace timer because we have a valid hit
+                
                 graceTimer = 0f;
 
                 if (current != gi)
@@ -52,7 +52,7 @@ public class GazeInteractor : MonoBehaviour
                     if (hoverTimer >= dwellTime)
                     {
                         current.OnGazeActivate();
-                        hoverTimer = -999f; // lock activation
+                        hoverTimer = -999f; 
                     }
                 }
 
@@ -65,7 +65,7 @@ public class GazeInteractor : MonoBehaviour
             }
         }
 
-        // ❗ No hit this frame — start grace period instead of instant reset
+       
         if (current != null)
         {
             graceTimer += Time.deltaTime;

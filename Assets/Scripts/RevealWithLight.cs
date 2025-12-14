@@ -4,7 +4,7 @@ using System.Collections;
 public class RevealWithLight : MonoBehaviour
 {
     [Header("Child Object Settings")]
-    public GameObject coinChild;          // Assign your coin mesh here
+    public GameObject coinChild;          
 
     [Header("Light Settings")]
     public Light targetLight;            
@@ -34,12 +34,12 @@ public class RevealWithLight : MonoBehaviour
 
         originalColor = coinRenderer.material.color;
 
-        // Start fully transparent
+        
         Color c = originalColor;
         c.a = 0f;
         coinRenderer.material.color = c;
 
-        // Keep the child disabled initially
+        
         coinChild.SetActive(false);
     }
 
@@ -69,7 +69,7 @@ public class RevealWithLight : MonoBehaviour
             yield return null;
         }
 
-        // Ensure fully opaque at the end
+        
         c.a = originalColor.a;
         coinRenderer.material.color = c;
     }

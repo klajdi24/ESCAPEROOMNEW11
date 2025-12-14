@@ -4,30 +4,30 @@ using System.Collections;
 
 public class CombinationLockManager : MonoBehaviour
 {
-    // ---------------- SUBTITLE SYSTEM ----------------
+    
     [Header("Subtitles")]
     public VRSubtitleManager subtitleManager;
     public AudioClip captainVoiceClip;
     public Sprite captainIcon;
 
     [TextArea]
-    public string[] subtitleLines; // array of sentences
+    public string[] subtitleLines; 
 
-    // ---------------- LOCK CONFIG ----------------
+    
     [Header("Lock Configuration")]
     public string correctCode = "1805";
     public string currentCode = "0000";
     public float unlockDelay = 1.0f;
 
-    // ---------------- EVENTS ----------------
+    
     [Header("Events")]
     public UnityEvent onLockOpened;
 
-    // ---------------- AUDIO ----------------
+    
     [Header("Audio")]
-    public AudioSource coinAudioSource;  // Audio plays on the coin
+    public AudioSource coinAudioSource; 
 
-    // ---------------- INTERNAL STATE ----------------
+   
     private bool isLocked = true;
     private bool audioPlayed = false;
 
@@ -40,9 +40,7 @@ public class CombinationLockManager : MonoBehaviour
             Debug.LogWarning("CombinationLockManager: No Subtitle Manager assigned!");
     }
 
-    // ---------------------------------------------------------
-    // CALLED BY EACH TUMBLER TO UPDATE ITS DIGIT
-    // ---------------------------------------------------------
+   
     public void UpdateTumbler(int tumblerIndex, int direction)
     {
         if (!isLocked) return;
@@ -60,16 +58,14 @@ public class CombinationLockManager : MonoBehaviour
         }
     }
 
-    // ---------------------------------------------------------
-    // CHECK IF THE ENTERED CODE IS CORRECT
-    // ---------------------------------------------------------
+    
     private void CheckCode()
     {
         if (currentCode == correctCode && isLocked)
         {
             isLocked = false;
 
-            // --- Ensure coin object is active BEFORE audio ---
+            
             GameObject coinObj = coinAudioSource.gameObject;
             if (!coinObj.activeInHierarchy)
             {
@@ -77,7 +73,7 @@ public class CombinationLockManager : MonoBehaviour
                 Debug.Log("Coin object activated.");
             }
 
-            // --- PLAY AUDIO ONCE ---
+            
             if (!audioPlayed && coinAudioSource != null)
             {
                 coinAudioSource.clip = captainVoiceClip;
@@ -85,7 +81,7 @@ public class CombinationLockManager : MonoBehaviour
                 audioPlayed = true;
                 Debug.Log("Correct code entered. Coin voice playing...");
 
-                // --- START SUBTITLES ---
+               
                 string[] captainLines = new string[]
                 {
                     "Well, blow me down.",
@@ -105,19 +101,17 @@ public class CombinationLockManager : MonoBehaviour
 
                 if (subtitleManager != null)
                 {
-                    // Pass only sentences and optional icon
+                    
                     subtitleManager.ShowSubtitles(captainLines, captainIcon);
                 }
             }
 
-            // Continue to unlock after delay
+            
             StartCoroutine(UnlockSequenceAfterDelay());
         }
     }
 
-    // ---------------------------------------------------------
-    // WAIT BEFORE FIRING THE UNLOCK EVENT
-    // ---------------------------------------------------------
+    
     private IEnumerator UnlockSequenceAfterDelay()
     {
         yield return new WaitForSeconds(unlockDelay);
@@ -126,9 +120,7 @@ public class CombinationLockManager : MonoBehaviour
         Debug.Log("Lock Opened Event Invoked.");
     }
 
-    // ---------------------------------------------------------
-    // RESET FUNCTION FOR RESET BUTTONS, ETC.
-    // ---------------------------------------------------------
+    
     public void ResetLock()
     {
         isLocked = true;

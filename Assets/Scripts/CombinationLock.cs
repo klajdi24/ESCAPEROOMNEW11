@@ -26,10 +26,10 @@ public class CombinationLock : MonoBehaviour
         audioSource.spatialBlend = 1f;
     }
 
-    // This is called by each tumbler when its value changes
+    
     public void CheckCode()
     {
-        if (isSolved) return; // Don't re-check if already solved
+        if (isSolved) return; 
 
         string currentCode = "";
         foreach (GazeLockTumbler tumbler in tumblers)
@@ -43,7 +43,7 @@ public class CombinationLock : MonoBehaviour
         }
         else
         {
-            // Optional: Play a "click" or "fail" sound on wrong attempts
+            
             if (failSound != null)
                 audioSource.PlayOneShot(failSound);
             
@@ -59,7 +59,7 @@ public class CombinationLock : MonoBehaviour
         if (successSound != null)
             audioSource.PlayOneShot(successSound);
 
-        // Fire the event! This can open the chest, play an animation, etc.
+        
         onSolved?.Invoke();
     }
 }

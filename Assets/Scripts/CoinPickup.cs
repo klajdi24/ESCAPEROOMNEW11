@@ -13,7 +13,7 @@ public class CoinPickup : MonoBehaviour
 
         gameObject.SetActive(false);
 
-        // Play SFX via AudioManager (respects SFX slider)
+        
         if (pickupSound && AudioManager.instance != null)
         {
             AudioManager.instance.PlaySFX(pickupSound, transform.position);

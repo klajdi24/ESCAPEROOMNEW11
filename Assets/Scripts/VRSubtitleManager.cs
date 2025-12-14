@@ -6,7 +6,7 @@ using System.Collections;
 public class VRSubtitleManager : MonoBehaviour
 {
     [Header("UI Elements")]
-    public GameObject subtitlePanel;        // The panel object you disable/enable
+    public GameObject subtitlePanel;        
     public TextMeshProUGUI subtitleText;
     public Image characterIcon;
 
@@ -21,7 +21,7 @@ public class VRSubtitleManager : MonoBehaviour
 
     void Start()
     {
-        // Make sure panel is hidden at start
+        
         if (subtitlePanel != null)
             subtitlePanel.SetActive(false);
     }
@@ -45,12 +45,11 @@ public class VRSubtitleManager : MonoBehaviour
 
     private IEnumerator SubtitleSequence(string[] sentences, Sprite speakerIcon)
     {
-        // Apply speaker icon
+        
         if (characterIcon != null && speakerIcon != null)
             characterIcon.sprite = speakerIcon;
 
-        // --- IMPORTANT ---
-        // Activate ONLY the subtitle panel, NOT the entire Canvas
+        
         subtitlePanel.SetActive(true);
 
         foreach (string sentence in sentences)
@@ -68,7 +67,7 @@ public class VRSubtitleManager : MonoBehaviour
             subtitleText.text = "";
         }
 
-        // Hide afterwards
+        
         subtitlePanel.SetActive(false);
     }
 }

@@ -20,7 +20,7 @@ public class ComfortSettingsMenu : MonoBehaviour
     public Slider sfxVolumeSlider;
 
     [Header("Scene Lighting")]
-    public Light[] sceneLights; // MULTIPLE LIGHTS
+    public Light[] sceneLights; 
     private float[] baseLightIntensities;
 
     [Header("Scene References")]
@@ -59,7 +59,7 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        // Cache original light intensities
+        
         if (sceneLights != null && sceneLights.Length > 0)
         {
             baseLightIntensities = new float[sceneLights.Length];
@@ -72,7 +72,7 @@ public class ComfortSettingsMenu : MonoBehaviour
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
 
-        // -------- Brightness --------
+        
         if (brightnessSlider != null)
         {
             brightnessSlider.minValue = 0f;
@@ -82,7 +82,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             SetBrightness(brightnessSlider.value);
         }
 
-        // -------- Motion Sensitivity --------
+        
         if (motionSensitivitySlider != null)
         {
             motionSensitivitySlider.minValue = 0f;
@@ -91,14 +91,14 @@ public class ComfortSettingsMenu : MonoBehaviour
             motionSensitivitySlider.onValueChanged.AddListener(SetMotionSensitivity);
         }
 
-        // -------- Gaze --------
+        
         if (gazeToggle != null)
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
 
         if (gazeInteractor != null && gazeToggle != null)
             gazeToggle.isOn = gazeInteractor.enabled;
 
-        // -------- Audio --------
+        
         if (musicVolumeSlider != null && AudioManager.instance != null)
         {
             musicVolumeSlider.value = AudioManager.instance.musicVolume;
@@ -111,7 +111,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             sfxVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
         }
 
-        // -------- Locomotion Reflection --------
+        
         if (moveProvider != null)
         {
             Type t = moveProvider.GetType();
@@ -160,7 +160,7 @@ public class ComfortSettingsMenu : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-    // ================= BRIGHTNESS =================
+    
     private void SetBrightness(float value)
     {
         if (sceneLights == null || baseLightIntensities == null) return;
@@ -175,7 +175,7 @@ public class ComfortSettingsMenu : MonoBehaviour
         }
     }
 
-    // ================= MOTION =================
+    
     private void SetMotionSensitivity(float value)
     {
         if (moveProvider == null) return;
@@ -192,7 +192,7 @@ public class ComfortSettingsMenu : MonoBehaviour
         catch { }
     }
 
-    // ================= GAZE =================
+    
     private void SetGazeEnabled(bool isEnabled)
     {
         if (gazeInteractor != null)

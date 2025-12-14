@@ -8,7 +8,7 @@ public class GazeInteractable : MonoBehaviour
     [Tooltip("Time (in seconds) the player must gaze to activate.")]
     public float dwellTime = 5f;
 
-    // The Inspector reference is BACK! You must link this in the Inspector.
+    
     [Header("Controller Settings")]
     [Tooltip("The Input Action to check for immediate activation (e.g., Trigger Press)")]
     public InputActionProperty primaryInteractionAction; 
@@ -23,15 +23,15 @@ public class GazeInteractable : MonoBehaviour
     private Color originalColor;
     public Color hoverColor = Color.yellow;
 
-    // State variables
+    
     private bool isHovered = false;
     private bool isActivated = false; 
     private float dwellTimer = 0f;
 
-    // 🔑 THE FIX: Enables and disables the controller action linked in the Inspector. 🔑
+    
     void OnEnable()
     {
-        // This is necessary to start listening for the trigger press.
+        
         if (primaryInteractionAction.action != null)
         {
             primaryInteractionAction.action.Enable();
@@ -45,7 +45,7 @@ public class GazeInteractable : MonoBehaviour
             primaryInteractionAction.action.Disable();
         }
     }
-    // 🔑 END FIX 🔑
+    
 
     void Start()
     {
@@ -57,16 +57,16 @@ public class GazeInteractable : MonoBehaviour
     {
         if (isHovered && !isActivated)
         {
-            // 1. Controller Activation (Instantaneous)
-            // Checks if the primary interaction button is pressed while hovering
+           
+            
             if (primaryInteractionAction.action != null && 
                 primaryInteractionAction.action.ReadValue<float>() > 0.1f)
             {
                 OnGazeActivate();
-                return; // Exit Update to prevent further gaze processing
+                return; 
             }
 
-            // 2. Gaze Dwell Activation (Timed)
+            
             dwellTimer += Time.deltaTime;
 
             if (dwellTimer >= dwellTime)
@@ -77,7 +77,7 @@ public class GazeInteractable : MonoBehaviour
         }
     }
 
-    // Called by the VR system when the ray hits this object (Hover/Color Change)
+    
     public void OnGazeEnter()
     {
 
@@ -91,7 +91,7 @@ public class GazeInteractable : MonoBehaviour
         if (rend) rend.material.color = hoverColor;
     }
 
-    // Called by the VR system when the ray leaves this object
+    
     public void OnGazeExit()
     {
 
@@ -105,7 +105,7 @@ public class GazeInteractable : MonoBehaviour
         if (rend) rend.material.color = originalColor;
     }
 
-    // Activated by either the Update loop (Gaze Dwell) or Controller Check
+    
     public void OnGazeActivate()
     {
 

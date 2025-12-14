@@ -29,7 +29,7 @@ public class AudioManager : MonoBehaviour
         ApplyMusicVolume();
     }
 
-    // -------- MUSIC --------
+    
     public void SetMusicVolume(float value)
     {
         musicVolume = value;
@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
             musicSource.volume = musicVolume;
     }
 
-    // -------- SFX --------
+   
     public void SetSFXVolume(float value)
     {
         sfxVolume = value;
@@ -58,7 +58,7 @@ public class AudioManager : MonoBehaviour
         AudioSource source = temp.AddComponent<AudioSource>();
         source.clip = clip;
         source.volume = sfxVolume;
-        source.spatialBlend = 1f; // 3D audio for VR
+        source.spatialBlend = 1f; 
         source.Play();
 
         Destroy(temp, clip.length);

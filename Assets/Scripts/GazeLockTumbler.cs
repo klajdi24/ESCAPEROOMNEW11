@@ -16,7 +16,7 @@ public class GazeLockTumbler : MonoBehaviour
         UpdateText();
     }
 
-    // Call this from the "Up" button's GazeInteractable
+    
     public void Increment()
     {
         currentValue++;
@@ -24,10 +24,10 @@ public class GazeLockTumbler : MonoBehaviour
             currentValue = 0;
 
         UpdateText();
-        lockManager?.CheckCode(); // Tell the manager to check the new code
+        lockManager?.CheckCode(); 
     }
 
-    // Call this from the "Down" button's GazeInteractable
+    
     public void Decrement()
     {
         currentValue--;
@@ -35,7 +35,7 @@ public class GazeLockTumbler : MonoBehaviour
             currentValue = 9;
 
         UpdateText();
-        lockManager?.CheckCode(); // Tell the manager to check the new code
+        lockManager?.CheckCode(); 
     }
 
     public int GetValue()

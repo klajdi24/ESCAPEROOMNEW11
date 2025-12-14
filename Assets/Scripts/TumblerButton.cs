@@ -21,18 +21,18 @@ public class TumblerButton : MonoBehaviour
             enabled = false;
         }
 
-        // Initialize display to match the manager's starting value
+        
         textDisplay.text = lockManager.currentCode[tumblerIndex].ToString();
     }
 
-    // Call this from the GazeInteractable's OnActivate event on the UP button
+    
     public void PressUp()
     {
         lockManager.UpdateTumbler(tumblerIndex, 1);
         UpdateDisplay();
     }
 
-    // Call this from the GazeInteractable's OnActivate event on the DOWN button
+    
     public void PressDown()
     {
         lockManager.UpdateTumbler(tumblerIndex, -1);
@@ -41,7 +41,7 @@ public class TumblerButton : MonoBehaviour
 
     private void UpdateDisplay()
     {
-        // Get the current number from the manager and display it
+        
         textDisplay.text = lockManager.currentCode[tumblerIndex].ToString();
     }
 }

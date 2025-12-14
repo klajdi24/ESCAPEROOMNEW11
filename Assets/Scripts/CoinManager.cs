@@ -33,7 +33,7 @@ public class CoinManager : MonoBehaviour
             return;
         }
 
-        // This is the earlier behavior
+        
         GameObject popup = Instantiate(popupPrefab, worldPos, Quaternion.identity);
 
         var ui = popup.GetComponent<CoinPopupUI>();

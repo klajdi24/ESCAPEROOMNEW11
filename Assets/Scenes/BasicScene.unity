@@ -21641,7 +21641,7 @@ MonoBehaviour:
   coinChild: {fileID: 1935287858}
   targetLight: {fileID: 1877849529}
   revealThreshold: 53
-  fadeDuration: 1
+  fadeDuration: 2.03
 --- !u!4 &2136803225
 Transform:
   m_ObjectHideFlags: 0

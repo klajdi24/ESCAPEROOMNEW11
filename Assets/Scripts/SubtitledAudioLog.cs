@@ -32,13 +32,13 @@ public class SubtitledAudioLog : MonoBehaviour
         if (subtitleDisplay == null)
             Debug.LogError("[SubtitledAudioLog] Subtitle Display (TMP_Text) is not assigned!");
         else
-            subtitleDisplay.gameObject.SetActive(false); // Hide text initially
+            subtitleDisplay.gameObject.SetActive(false); 
     }
 
-    // This is the function you will call from the GazeInteractable's onActivate event
+    
     public void PlayLog()
     {
-        // Prevent re-playing spam
+        
         if (hasBeenPlayed || (audioSource != null && audioSource.isPlaying))
             return;
 
@@ -52,19 +52,19 @@ public class SubtitledAudioLog : MonoBehaviour
     {
         hasBeenPlayed = true;
 
-        // Show text and play audio
+        
         subtitleDisplay.text = logText;
         subtitleDisplay.gameObject.SetActive(true);
         audioSource.Play();
 
-        // Wait for the audio clip to finish
+        
         yield return new WaitForSeconds(logAudio.length);
 
-        // Wait for the "linger time"
+        
         yield return new WaitForSeconds(subtitleLingerTime);
 
-        // Hide the subtitles
+        
         subtitleDisplay.gameObject.SetActive(false);
-        hasBeenPlayed = false; // Allow re-playing
+        hasBeenPlayed = false; 
     }
 }
