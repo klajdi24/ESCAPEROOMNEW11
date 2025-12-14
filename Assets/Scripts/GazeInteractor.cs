@@ -3,14 +3,21 @@ using UnityEngine;
 [RequireComponent(typeof(Camera))]
 public class GazeInteractor : MonoBehaviour
 {
+    [Header("Raycast Settings")]
     public float maxDistance = 10f;
-    public LayerMask interactableLayer = ~0; // all layers by default
+    public LayerMask interactableLayer = ~0;
+
+    [Header("Gaze Timing")]
     public float dwellTime = 1.2f;
+    public float hoverGraceTime = 0.15f; // 👈 NEW (important)
+
+    [Header("Visuals")]
     public Transform reticle;
 
     private Camera cam;
     private GazeInteractable current;
     private float hoverTimer = 0f;
+    private float graceTimer = 0f;
 
     void Start()
     {
@@ -22,16 +29,15 @@ public class GazeInteractor : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         Debug.DrawRay(transform.position, transform.forward * maxDistance, Color.green);
 
-        // 🔍 Cast the ray
         if (Physics.Raycast(ray, out RaycastHit hit, maxDistance, interactableLayer))
         {
-         //   Debug.Log("Ray hit: " + hit.collider.gameObject.name);
-
             var gi = hit.collider.GetComponent<GazeInteractable>();
 
             if (gi != null)
             {
-                // if we just started looking at a new object
+                // Reset grace timer because we have a valid hit
+                graceTimer = 0f;
+
                 if (current != gi)
                 {
                     current?.OnGazeExit();
@@ -41,35 +47,38 @@ public class GazeInteractor : MonoBehaviour
                 }
                 else
                 {
-                    // we are still looking at the same object
                     hoverTimer += Time.deltaTime;
+
                     if (hoverTimer >= dwellTime)
                     {
                         current.OnGazeActivate();
-                        hoverTimer = 0f;
+                        hoverTimer = -999f; // lock activation
                     }
                 }
 
-                // move the reticle to where the ray hits
                 if (reticle != null)
                 {
                     reticle.position = hit.point;
                 }
 
-                // early exit so we don't reset everything
                 return;
             }
         }
 
-        // nothing hit — reset
+        // ❗ No hit this frame — start grace period instead of instant reset
         if (current != null)
         {
-            current.OnGazeExit();
-            current = null;
-        }
+            graceTimer += Time.deltaTime;
 
-        hoverTimer = 0f;
+            if (graceTimer >= hoverGraceTime)
+            {
+                current.OnGazeExit();
+                current = null;
+                hoverTimer = 0f;
+            }
+        }
     }
 }
+
 
 

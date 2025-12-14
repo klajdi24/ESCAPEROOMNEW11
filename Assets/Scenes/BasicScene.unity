@@ -1351,6 +1351,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 51
   dwellTime: 1.2
+  hoverGraceTime: 0.15
   reticle: {fileID: 1519063829}
 --- !u!20 &130220515 stripped
 Camera:
@@ -2886,7 +2887,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalRadius: 0.8
   verticalAmplitude: 0.32
-  movementSpeed: 1.85
+  movementSpeed: 1.05
   spinSpeed: 194.6
 --- !u!1001 &418136103
 PrefabInstance:
