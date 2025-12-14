@@ -6353,7 +6353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1036918376}
-  musicVolume: 1
+  musicVolume: 0.202
   sfxVolume: 1
 --- !u!4 &1036918375
 Transform:
