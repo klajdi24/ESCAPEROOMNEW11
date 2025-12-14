@@ -1,9 +1,9 @@
 using System;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 [RequireComponent(typeof(Canvas))]
 public class ComfortSettingsMenu : MonoBehaviour
@@ -27,7 +27,8 @@ public class ComfortSettingsMenu : MonoBehaviour
     public MonoBehaviour gazeInteractor;
 
     [Header("XR Locomotion")]
-    public Component moveProvider;
+    public DynamicMoveProvider moveProvider;
+    private float baseMoveSpeed = 1f;
 
     [Header("Placement")]
     public Camera playerCamera;
@@ -35,11 +36,7 @@ public class ComfortSettingsMenu : MonoBehaviour
     public float verticalOffset = -0.2f;
 
     private bool menuOpen = false;
-    private float baseMoveSpeed = 1f;
-
     private InputAction toggleAction;
-    private PropertyInfo moveSpeedProperty;
-    private FieldInfo moveSpeedField;
 
     private void Awake()
     {
@@ -59,7 +56,7 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        
+        // Store base light intensities
         if (sceneLights != null && sceneLights.Length > 0)
         {
             baseLightIntensities = new float[sceneLights.Length];
@@ -69,10 +66,11 @@ public class ComfortSettingsMenu : MonoBehaviour
             }
         }
 
+        // Close button
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
 
-        
+        // Brightness slider
         if (brightnessSlider != null)
         {
             brightnessSlider.minValue = 0f;
@@ -82,7 +80,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             SetBrightness(brightnessSlider.value);
         }
 
-        
+        // Motion sensitivity slider
         if (motionSensitivitySlider != null)
         {
             motionSensitivitySlider.minValue = 0f;
@@ -91,14 +89,16 @@ public class ComfortSettingsMenu : MonoBehaviour
             motionSensitivitySlider.onValueChanged.AddListener(SetMotionSensitivity);
         }
 
-        
+        // Gaze toggle
         if (gazeToggle != null)
+        {
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
 
-        if (gazeInteractor != null && gazeToggle != null)
-            gazeToggle.isOn = gazeInteractor.enabled;
+            if (gazeInteractor != null)
+                gazeToggle.isOn = gazeInteractor.enabled;
+        }
 
-        
+        // Audio sliders
         if (musicVolumeSlider != null && AudioManager.instance != null)
         {
             musicVolumeSlider.value = AudioManager.instance.musicVolume;
@@ -111,22 +111,9 @@ public class ComfortSettingsMenu : MonoBehaviour
             sfxVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
         }
 
-        
+        // Store base move speed
         if (moveProvider != null)
-        {
-            Type t = moveProvider.GetType();
-            moveSpeedProperty = t.GetProperty("moveSpeed", BindingFlags.Public | BindingFlags.Instance);
-            moveSpeedField = t.GetField("moveSpeed", BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-
-            try
-            {
-                if (moveSpeedProperty != null)
-                    baseMoveSpeed = (float)moveSpeedProperty.GetValue(moveProvider);
-                else if (moveSpeedField != null)
-                    baseMoveSpeed = (float)moveSpeedField.GetValue(moveProvider);
-            }
-            catch { }
-        }
+            baseMoveSpeed = moveProvider.moveSpeed;
     }
 
     private void Update()
@@ -160,7 +147,6 @@ public class ComfortSettingsMenu : MonoBehaviour
         settingsPanel.SetActive(false);
     }
 
-    
     private void SetBrightness(float value)
     {
         if (sceneLights == null || baseLightIntensities == null) return;
@@ -169,41 +155,28 @@ public class ComfortSettingsMenu : MonoBehaviour
         {
             if (sceneLights[i] != null)
             {
-                sceneLights[i].intensity =
-                    Mathf.Lerp(0.2f, baseLightIntensities[i], value);
+                sceneLights[i].intensity = Mathf.Lerp(0.2f, baseLightIntensities[i], value);
             }
         }
     }
 
-    
     private void SetMotionSensitivity(float value)
     {
         if (moveProvider == null) return;
 
-        float newSpeed = baseMoveSpeed * Mathf.Lerp(0.5f, 2f, value);
-
-        try
-        {
-            if (moveSpeedProperty != null)
-                moveSpeedProperty.SetValue(moveProvider, newSpeed);
-            else if (moveSpeedField != null)
-                moveSpeedField.SetValue(moveProvider, newSpeed);
-        }
-        catch { }
+        moveProvider.moveSpeed = baseMoveSpeed * Mathf.Lerp(0.5f, 2f, value * value);
     }
 
-    
     private void SetGazeEnabled(bool isEnabled)
-{
-    if (gazeInteractor != null)
-        gazeInteractor.enabled = isEnabled;
+    {
+        if (gazeInteractor != null)
+            gazeInteractor.enabled = isEnabled;
 
-    
-    Transform cursor = gazeInteractor.transform.Find("GazeCursor");
-    if (cursor != null)
-        cursor.gameObject.SetActive(isEnabled);
+        Transform cursor = gazeInteractor.transform.Find("GazeCursor");
+        if (cursor != null)
+            cursor.gameObject.SetActive(isEnabled);
+    }
 }
 
-}
 
 
