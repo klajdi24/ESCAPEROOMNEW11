@@ -194,10 +194,16 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     
     private void SetGazeEnabled(bool isEnabled)
-    {
-        if (gazeInteractor != null)
-            gazeInteractor.enabled = isEnabled;
-    }
+{
+    if (gazeInteractor != null)
+        gazeInteractor.enabled = isEnabled;
+
+    
+    Transform cursor = gazeInteractor.transform.Find("GazeCursor");
+    if (cursor != null)
+        cursor.gameObject.SetActive(isEnabled);
+}
+
 }
 
 
