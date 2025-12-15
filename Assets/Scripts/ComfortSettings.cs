@@ -56,7 +56,7 @@ public class ComfortSettingsMenu : MonoBehaviour
 
     private void Start()
     {
-        // Store base light intensities
+       
         if (sceneLights != null && sceneLights.Length > 0)
         {
             baseLightIntensities = new float[sceneLights.Length];
@@ -66,11 +66,11 @@ public class ComfortSettingsMenu : MonoBehaviour
             }
         }
 
-        // Close button
+        
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseMenu);
 
-        // Brightness slider
+        
         if (brightnessSlider != null)
         {
             brightnessSlider.minValue = 0f;
@@ -80,7 +80,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             SetBrightness(brightnessSlider.value);
         }
 
-        // Motion sensitivity slider
+        
         if (motionSensitivitySlider != null)
         {
             motionSensitivitySlider.minValue = 0f;
@@ -89,7 +89,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             motionSensitivitySlider.onValueChanged.AddListener(SetMotionSensitivity);
         }
 
-        // Gaze toggle
+       
         if (gazeToggle != null)
         {
             gazeToggle.onValueChanged.AddListener(SetGazeEnabled);
@@ -98,7 +98,7 @@ public class ComfortSettingsMenu : MonoBehaviour
                 gazeToggle.isOn = gazeInteractor.enabled;
         }
 
-        // Audio sliders
+        
         if (musicVolumeSlider != null && AudioManager.instance != null)
         {
             musicVolumeSlider.value = AudioManager.instance.musicVolume;
@@ -111,7 +111,7 @@ public class ComfortSettingsMenu : MonoBehaviour
             sfxVolumeSlider.onValueChanged.AddListener(AudioManager.instance.SetSFXVolume);
         }
 
-        // Store base move speed
+        
         if (moveProvider != null)
             baseMoveSpeed = moveProvider.moveSpeed;
     }
@@ -176,6 +176,14 @@ public class ComfortSettingsMenu : MonoBehaviour
         if (cursor != null)
             cursor.gameObject.SetActive(isEnabled);
     }
+    private void LateUpdate()
+{
+    if (!menuOpen || playerCamera == null) return;
+
+    settingsPanel.transform.LookAt(playerCamera.transform);
+    settingsPanel.transform.Rotate(0f, 180f, 0f);
+}
+
 }
 
 
